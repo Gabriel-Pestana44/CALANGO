@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alterar Pergunta de Múltipla Escolha</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            max-width: 400px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff; 
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0069d9;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #007bff; 
+            text-decoration: none; 
+        }
+
+        a:hover {
+            text-decoration: underline; 
+        }
+
+        p {
+            text-align: center;
+            color: #28a745;
+            margin-top: 20px;
+        }
+
+        .error {
+            color: red;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Alterar Pergunta de Múltipla Escolha</h1>
+
+    <form id="alterarPM-form">
+        <label for="id">ID da Pergunta:</label>
+        <input type="text" id="id" name="id" required>
+        
+        <label for="pergunta">Nova Pergunta:</label>
+        <textarea id="pergunta" name="pergunta" required></textarea>
+
+        <label for="resposta">Nova Resposta:</label>
+        <textarea id="resposta" name="resposta" required></textarea>
+
+        <h3>Novas Opções:</h3>
+        <label for="opcaoA">Nova Opção A:</label>
+        <input type="text" id="opcaoA" name="opcaoA" required>
+
+        <label for="opcaoB">Nova Opção B:</label>
+        <input type="text" id="opcaoB" name="opcaoB" required>
+
+        <label for="opcaoC">Nova Opção C:</label>
+        <input type="text" id="opcaoC" name="opcaoC" required>
+
+        <label for="opcaoD">Nova Opção D:</label>
+        <input type="text" id="opcaoD" name="opcaoD" required>
+
+        <button type="submit">Alterar Pergunta</button>
+    </form>
+
+    <a href="index.php">Voltar para a Lista</a>
+
+    <p id="response-message"></p>
+
+    <script>
+        document.getElementById('alterarPM-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const formData = new URLSearchParams(new FormData(this)).toString();
+
+            // Envia requisição AJAX para alterar Pergunta de Múltipla Escolha
+            fetch('alterarPM.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const responseMessage = document.getElementById('response-message');
+                if (data.status === 'success') {
+                    responseMessage.style.color = 'green';
+                } else {
+                    responseMessage.style.color = 'red';
+                }
+                responseMessage.innerText = data.message;
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,3 @@
+ID: 555 | Pergunta: aaaaaaaaaaaaaaaaaaaaaaaaaaaaa | Resposta: aaaaaaaaaaaaaaaaaaaa | Opção A: aaaaaaaaaaaaaaaaaa | Opção B: aaaaaaaaaaaaaaa | Opção C: aaaaaaaaaaaaaaaa | Opção D: aaaaaaaaaaaaaaa
+ID: 111 | Pergunta: xxxxxxxxxxxxxxxxxxxxxxx | Resposta: xxxxxxxxxxxxxxxxxxx | Opção A: xxxxxxxxxxxxxx | Opção B: xxxxxxxxxxxx | Opção C: xxxxxxxxxxxxxxxx | Opção D: xxxxxxxxxxxxxxxxxxx
+ID: 12 | Pergunta: por que acordamos de benga dura? | Resposta: a | Opção A: pq sim | Opção B: pq nao | Opção C: pinto | Opção D: cu

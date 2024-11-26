@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listar Perguntas</title>
+    <style>
+         body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            max-width: 400px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0069d9;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .result {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .pergunta {
+            background-color: #e9ecef;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+
+        .pergunta h3 {
+            margin: 0;
+        }
+
+        .opcoes {
+            text-align: center; /* Centraliza a lista de opções */
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .opcoes li {
+            margin: 5px 0; /* Margem entre as opções */
+        }
+
+        .opcoes input[type="radio"] {
+            margin-right: 10px; /* Espaço entre o botão de opção e o texto */
+        }
+
+        .error {
+            color: red;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Listar Perguntas</h1>
+
+    <form id="listar-form">
+        <label for="id">ID da Pergunta (deixe em branco para listar todas):</label>
+        <input type="text" id="id" name="id">
+        <button type="submit">Buscar</button>
+    </form>
+
+    <a href="index.php">Voltar para a Lista</a>
+
+    <div id="perguntas-container"></div>
+
+    <script>
+        document.getElementById('listar-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const id = document.getElementById('id').value;
+
+            // Envia requisição AJAX para listar perguntas
+            fetch('listar.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `id=${id}`
+            })
+            .then(response => response.json())
+            .then(perguntas => {
+                const container = document.getElementById('perguntas-container');
+                container.innerHTML = ''; // Limpa o conteúdo anterior
+
+                perguntas.forEach(pergunta => {
+                    let perguntaDiv = document.createElement('div');
+                    perguntaDiv.classList.add('pergunta');
+
+                    if (pergunta.tipo === 'discursiva') {
+                        perguntaDiv.innerHTML = `
+                            <h3>Pergunta Discursiva (ID: ${pergunta.id})</h3>
+                            <p>${pergunta.pergunta}</p>
+                            <textarea rows="4" cols="50" placeholder="Responda aqui..."></textarea>`;
+                    } else if (pergunta.tipo === 'multipla') {
+                        let opcoesHTML = '';
+                        for (let opcao in pergunta.opcoes) {
+                            opcoesHTML += `<li><input type='radio' name='pergunta_${pergunta.id}'> ${opcao}: ${pergunta.opcoes[opcao]}</li>`;
+                        }
+
+                        perguntaDiv.innerHTML = `
+                            <h3>Pergunta de Múltipla Escolha (ID: ${pergunta.id})</h3>
+                            <p>${pergunta.pergunta}</p>
+                            <ul>${opcoesHTML}</ul>`;
+                    }
+
+                    container.appendChild(perguntaDiv);
+                });
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+            });
+        });
+    </script>
+</body>
+</html>
